@@ -1,50 +1,22 @@
 version: "3.3"
 
 services:
-  traefik:
-    container_name: traefik
-    image: "traefik:latest"
-    ports:
-      - "80:80"
-      - "8080:8080"
-      - "443:443"
-    volumes:
-      - "./traefik.yml:/etc/traefik/traefik.yml:ro"
-      - "/var/run/docker.sock:/var/run/docker.sock:ro"
-    networks:
-      - traefik_net
-
   portainer:
     image: portainer/portainer-ce:latest
     container_name: portainer
     command: -H unix:///var/run/docker.sock
     restart: always
     networks:
-      - traefik_net
+      - public_net
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer_data:/data
-    labels:
-      # Frontend
-      - "traefik.enable=true"
-      - "traefik.docker.network=traefik_net"
-      - "traefik.http.routers.frontend.rule=PathPrefix(`/portainer`)"
-      - "traefik.http.routers.frontend.middlewares=strip-portainer"
-      - "traefik.http.middlewares.strip-portainer.stripprefix.prefixes=/portainer"
-      - "traefik.http.routers.frontend.service=portainer"
-      - "traefik.http.routers.frontend.entrypoints=http"
-      - "traefik.http.services.portainer.loadbalancer.server.port=9000"
-
-      # Edge
-      - "traefik.http.routers.edge.rule=PathPrefix(`/portainer-edge`)"
-      - "traefik.http.routers.edge.entrypoints=http"
-      - "traefik.port=8000"
 
 
 volumes:
   portainer_data:
 
 networks:
-  traefik_net:
+  public_net:
     driver: bridge
-    name: traefik_net
+    name: public_net

@@ -1,0 +1,16 @@
+version: '3.3'
+services:
+  filebrowser:
+    container_name: filebrowser
+    volumes:
+      - '/homelab/data/drive:/srv'
+      - './filebrowser.db:/database.db'
+      - './.filebrowser.json:/.filebrowser.json'
+    image: filebrowser/filebrowser
+    networks:
+      - public_net
+    restart: always
+
+networks:
+  public_net:
+    external: true

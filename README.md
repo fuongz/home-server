@@ -1,17 +1,8 @@
 # Fuongz Home Server
 
-## 1. Setup
+## Ports in use
 
-### Traefik
-
-1. Create `portainer` volume
-
-```bash
-docker volume create portainer_data
-```
-
-1. Run `docker-compose.yml` file
-
-```bash
-docker-compose -f docker-compose/traefik-portainer/docker-compose.yml up -d
-```
+1. Portainer - **9000**
+1. Filebrowser - **80**
+1. Komga - **8080**
+1. Memos - **5230**

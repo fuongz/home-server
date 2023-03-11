@@ -1,0 +1,15 @@
+version: '3.3'
+services:
+  komga:
+    image: gotson/komga
+    container_name: komga
+    volumes:
+      - /homelab/config/komga:/config
+      - /homelab/data/mangas:/data
+    restart: unless-stopped
+    networks:
+      - public_net
+      
+networks:
+  public_net:
+    external: true
